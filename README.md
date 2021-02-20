@@ -11,7 +11,7 @@ Sqlite was used as database in the application.
 <li>Install the file and start using.</li>
 
 <h3>Download the Source Code</h3>
-These project writtin with Android Studio 4.0 and gradle version is 4.1.1.<br>
+These project written with Android Studio 4.0 and gradle version is 4.1.1.<br>
 First clone the repo:<br>
 <code>git clone git@github.com:eymiramazan/todolist.git</code><br>
 Open the project with android studio.<br>
