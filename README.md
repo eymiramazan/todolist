@@ -22,6 +22,6 @@ If not android studio will build the project.
 <li>Click the add icon on the toolbar and add to do.</li>
 <li>New todo's added are assigned incomplete.</li>
 <li>After completing a task, it is necessary to click on the task and
-press the completed<br> checkbox from the screen that opens in order to mark completed it as.</li>
+press the completed checkbox from the screen that opens in order to mark completed it as.</li>
 <li>The same must be done to delete a task.</li>
 <li>Tasks can be switch with swiping the screen.</li>
