@@ -1,5 +1,4 @@
 # TO DO LIST
-
 A simple to do list app built in android studio.<br>
 
 Sqlite was used as database in the application.
