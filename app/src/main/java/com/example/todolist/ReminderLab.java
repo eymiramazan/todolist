@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.todolist.database.ReminderBaseHelper;
 import com.example.todolist.database.ReminderCursorWrapper;
 import com.example.todolist.database.ReminderDbSchema.ReminderTable;
+
 import static com.example.todolist.database.ReminderDbSchema.ReminderTable.Columns.*;
 
 import java.util.ArrayList;
@@ -27,21 +28,21 @@ public class ReminderLab {
         return reminderLab;
     }
 
-    private ReminderLab(Context context){
+    private ReminderLab(Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new ReminderBaseHelper(mContext).getWritableDatabase();
     }
 
     //add reminder to database
-    public void addReminder(Reminder r){
+    public void addReminder(Reminder r) {
         ContentValues values = getContentValues(r);
-        mDatabase.insert(ReminderTable.NAME,null,values);
+        mDatabase.insert(ReminderTable.NAME, null, values);
     }
 
     //get reminders for recyclerview
-    public List<Reminder> getReminders(){
+    public List<Reminder> getReminders() {
         List<Reminder> reminders = new ArrayList<>();
-        ReminderCursorWrapper cursor = queryReminders(null,null);
+        ReminderCursorWrapper cursor = queryReminders(null, null);
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -55,7 +56,7 @@ public class ReminderLab {
     }
 
     //get specific reminder with id
-    public Reminder getReminder(UUID id){
+    public Reminder getReminder(UUID id) {
         ReminderCursorWrapper cursor = queryReminders(
                 ReminderTable.Columns.ID + " = ?",
                 new String[]{id.toString()}
@@ -72,36 +73,36 @@ public class ReminderLab {
     }
 
     //update the content of reminder
-    public void updateReminder(Reminder reminder){
+    public void updateReminder(Reminder reminder) {
         String idString = reminder.getId().toString();
         ContentValues values = getContentValues(reminder);
-        mDatabase.update(ReminderTable.NAME,values,
+        mDatabase.update(ReminderTable.NAME, values,
                 ReminderTable.Columns.ID + " = ?",
                 new String[]{idString});
     }
 
     //Reminder query operations
-    private ReminderCursorWrapper queryReminders(String whereClause, String[] whereArgs){
+    private ReminderCursorWrapper queryReminders(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 ReminderTable.NAME,
-                null,whereClause,whereArgs,null,null,null
+                null, whereClause, whereArgs, null, null, null
         );
         return new ReminderCursorWrapper(cursor);
     }
 
-    private static ContentValues getContentValues(Reminder reminder){
+    private static ContentValues getContentValues(Reminder reminder) {
         ContentValues values = new ContentValues();
-        values.put(ID,reminder.getId().toString());
-        values.put(TITLE,reminder.getTitle());
+        values.put(ID, reminder.getId().toString());
+        values.put(TITLE, reminder.getTitle());
         values.put(DETAIL, reminder.getDetails());
-        values.put(COMPLETED,reminder.isCompleted() ? 1 : 0);
+        values.put(COMPLETED, reminder.isCompleted() ? 1 : 0);
         return values;
     }
 
     //delete reminder from database
-    public void deleteReminder(Reminder reminder){
+    public void deleteReminder(Reminder reminder) {
         String whereClause = reminder.getId().toString();
-        mDatabase.delete(ReminderTable.NAME,"id=?",new String[]{whereClause});
+        mDatabase.delete(ReminderTable.NAME, "id=?", new String[]{whereClause});
     }
 
 }

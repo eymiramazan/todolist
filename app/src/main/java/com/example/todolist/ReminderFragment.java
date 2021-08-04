@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.Nullable;
+import androidx.core.app.SharedElementCallback;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,10 +17,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.UUID;
 
-public class ReminderFragment extends Fragment {
+public class ReminderFragment extends Fragment  {
 
     private static final String REMINDER_ID = "reminder_id";
 
@@ -55,13 +61,10 @@ public class ReminderFragment extends Fragment {
         remindEditText.setText(reminder.getDetails());
 
         addButton = (Button) v.findViewById(R.id.addButton);
-        addButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                reminder.setTitle(reminderEditText.getText().toString());
-                reminder.setDetails(remindEditText.getText().toString());
-                getActivity().onBackPressed();
-            }
+        addButton.setOnClickListener(v1 -> {
+            reminder.setTitle(reminderEditText.getText().toString());
+            reminder.setDetails(remindEditText.getText().toString());
+            Objects.requireNonNull(getActivity()).onBackPressed();
         });
 
         completedCheckBox = (CheckBox) v.findViewById(R.id.reminderCheckImage);
@@ -98,4 +101,5 @@ public class ReminderFragment extends Fragment {
             return;
         }
     }
+
 }

@@ -1,7 +1,9 @@
 package com.example.todolist;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,9 +71,19 @@ public class ReminderListFragment extends Fragment {
     }
 
     //update ui after change or add reminder
+    @SuppressLint("NotifyDataSetChanged")
     private void updateUI() {
+        System.out.println("update ui");
         ReminderLab reminderLab = ReminderLab.get(getActivity());
         List<Reminder> reminders = reminderLab.getReminders();
+
+        for (Reminder reminder : reminders) {
+            if (reminder.getId() != null && reminder.getTitle() == null
+                    && reminder.getDetails() == null) {
+                reminders.remove(reminder);
+                reminderLab.deleteReminder(reminder);
+            }
+        }
 
         if (mAdapter == null) {
             mAdapter = new ReminderAdapter(reminders);
@@ -82,7 +94,6 @@ public class ReminderListFragment extends Fragment {
         }
     }
 
-
     private class ReminderHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
@@ -91,7 +102,6 @@ public class ReminderListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDetailTextView;
         private ImageView mCompletedImageView;
-        private TextView mIdTextView;
 
         public ReminderHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_reminder, parent, false));
@@ -107,7 +117,6 @@ public class ReminderListFragment extends Fragment {
             mTitleTextView.setText(reminder.getTitle());
             mDetailTextView.setText(reminder.getDetails());
             mCompletedImageView.setVisibility(reminder.isCompleted() ? View.VISIBLE : View.GONE);
-
         }
 
         //click specific reminder
@@ -143,7 +152,7 @@ public class ReminderListFragment extends Fragment {
             return reminders.size();
         }
 
-        public void setReminder(List<Reminder> reminder){
+        public void setReminder(List<Reminder> reminder) {
             reminders = reminder;
         }
     }
